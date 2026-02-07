@@ -1,0 +1,67 @@
+# Third-Party Notices
+
+This project includes third-party components. License texts are provided in
+`third_party_licenses/`.
+
+## Dependency Notices
+- cloud.google.com/go/ai@v0.8.0 — licenses: third_party_licenses/cloud.google.com__go__ai@v0.8.0/LICENSE
+- cloud.google.com/go/auth@v0.18.1 — licenses: third_party_licenses/cloud.google.com__go__auth@v0.18.1/LICENSE
+- cloud.google.com/go/auth/oauth2adapt@v0.2.8 — licenses: third_party_licenses/cloud.google.com__go__auth__oauth2adapt@v0.2.8/LICENSE
+- cloud.google.com/go/compute/metadata@v0.9.0 — licenses: third_party_licenses/cloud.google.com__go__compute__metadata@v0.9.0/LICENSE
+- cloud.google.com/go/longrunning@v0.5.7 — licenses: third_party_licenses/cloud.google.com__go__longrunning@v0.5.7/LICENSE
+- fyne.io/fyne/v2@v2.7.2 — licenses: third_party_licenses/fyne.io__fyne__v2@v2.7.2/LICENSE
+- fyne.io/systray@v1.12.0 — licenses: third_party_licenses/fyne.io__systray@v1.12.0/LICENSE
+- github.com/BurntSushi/toml@v1.5.0 — licenses: third_party_licenses/github.com__BurntSushi__toml@v1.5.0/COPYING
+- github.com/asticode/go-astikit@v0.20.0 — licenses: third_party_licenses/github.com__asticode__go-astikit@v0.20.0/LICENSE
+- github.com/asticode/go-astisub@v0.38.0 — licenses: third_party_licenses/github.com__asticode__go-astisub@v0.38.0/LICENSE
+- github.com/asticode/go-astits@v1.8.0 — licenses: third_party_licenses/github.com__asticode__go-astits@v1.8.0/LICENSE
+- github.com/cespare/xxhash/v2@v2.3.0 — licenses: third_party_licenses/github.com__cespare__xxhash__v2@v2.3.0/LICENSE.txt
+- github.com/felixge/httpsnoop@v1.0.4 — licenses: third_party_licenses/github.com__felixge__httpsnoop@v1.0.4/LICENSE.txt
+- github.com/fredbi/uri@v1.1.1 — licenses: third_party_licenses/github.com__fredbi__uri@v1.1.1/LICENSE.md
+- github.com/fsnotify/fsnotify@v1.9.0 — licenses: third_party_licenses/github.com__fsnotify__fsnotify@v1.9.0/LICENSE
+- github.com/fyne-io/image@v0.1.1 — licenses: third_party_licenses/github.com__fyne-io__image@v0.1.1/LICENSE
+- github.com/fyne-io/oksvg@v0.2.0 — licenses: third_party_licenses/github.com__fyne-io__oksvg@v0.2.0/LICENSE; third_party_licenses/github.com__fyne-io__oksvg@v0.2.0/testdata/LICENSE
+- github.com/go-gl/gl@v0.0.0-20231021071112-07e5d0ea2e71 — licenses: third_party_licenses/github.com__go-gl__gl@v0.0.0-20231021071112-07e5d0ea2e71/LICENSE
+- github.com/go-gl/glfw/v3.3/glfw@v0.0.0-20240506104042-037f3cc74f2a — licenses: third_party_licenses/github.com__go-gl__glfw__v3.3__glfw@v0.0.0-20240506104042-037f3cc74f2a/LICENSE; third_party_licenses/github.com__go-gl__glfw__v3.3__glfw@v0.0.0-20240506104042-037f3cc74f2a/glfw/LICENSE.md
+- github.com/go-logr/logr@v1.4.3 — licenses: third_party_licenses/github.com__go-logr__logr@v1.4.3/LICENSE
+- github.com/go-logr/stdr@v1.2.2 — licenses: third_party_licenses/github.com__go-logr__stdr@v1.2.2/LICENSE
+- github.com/go-text/render@v0.2.0 — licenses: third_party_licenses/github.com__go-text__render@v0.2.0/LICENSE
+- github.com/go-text/typesetting@v0.2.1 — licenses: third_party_licenses/github.com__go-text__typesetting@v0.2.1/LICENSE; third_party_licenses/github.com__go-text__typesetting@v0.2.1/harfbuzz/LICENSE
+- github.com/godbus/dbus/v5@v5.1.0 — licenses: third_party_licenses/github.com__godbus__dbus__v5@v5.1.0/LICENSE
+- github.com/google/generative-ai-go@v0.20.1 — licenses: third_party_licenses/github.com__google__generative-ai-go@v0.20.1/LICENSE; third_party_licenses/github.com__google__generative-ai-go@v0.20.1/genai/license.txt
+- github.com/google/s2a-go@v0.1.9 — licenses: third_party_licenses/github.com__google__s2a-go@v0.1.9/LICENSE.md
+- github.com/google/uuid@v1.6.0 — licenses: third_party_licenses/github.com__google__uuid@v1.6.0/LICENSE
+- github.com/googleapis/enterprise-certificate-proxy@v0.3.11 — licenses: third_party_licenses/github.com__googleapis__enterprise-certificate-proxy@v0.3.11/LICENSE
+- github.com/googleapis/gax-go/v2@v2.16.0 — licenses: third_party_licenses/github.com__googleapis__gax-go__v2@v2.16.0/LICENSE
+- github.com/jeandeaual/go-locale@v0.0.0-20250612000132-0ef82f21eade — licenses: third_party_licenses/github.com__jeandeaual__go-locale@v0.0.0-20250612000132-0ef82f21eade/LICENSE
+- github.com/jsummers/gobmp@v0.0.0-20230614200233-a9de23ed2e25 — licenses: third_party_licenses/github.com__jsummers__gobmp@v0.0.0-20230614200233-a9de23ed2e25/COPYING.txt
+- github.com/nfnt/resize@v0.0.0-20180221191011-83c6a9932646 — licenses: third_party_licenses/github.com__nfnt__resize@v0.0.0-20180221191011-83c6a9932646/LICENSE
+- github.com/nicksnyder/go-i18n/v2@v2.5.1 — licenses: third_party_licenses/github.com__nicksnyder__go-i18n__v2@v2.5.1/LICENSE
+- github.com/rivo/uniseg@v0.4.7 — licenses: third_party_licenses/github.com__rivo__uniseg@v0.4.7/LICENSE.txt
+- github.com/rymdport/portal@v0.4.2 — licenses: third_party_licenses/github.com__rymdport__portal@v0.4.2/LICENSE
+- github.com/spf13/cobra@v1.9.1 — licenses: third_party_licenses/github.com__spf13__cobra@v1.9.1/LICENSE.txt
+- github.com/spf13/pflag@v1.0.6 — licenses: third_party_licenses/github.com__spf13__pflag@v1.0.6/LICENSE
+- github.com/srwiley/oksvg@v0.0.0-20221011165216-be6e8873101c — licenses: third_party_licenses/github.com__srwiley__oksvg@v0.0.0-20221011165216-be6e8873101c/LICENSE; third_party_licenses/github.com__srwiley__oksvg@v0.0.0-20221011165216-be6e8873101c/testdata/LICENSE
+- github.com/srwiley/rasterx@v0.0.0-20220730225603-2ab79fcdd4ef — licenses: third_party_licenses/github.com__srwiley__rasterx@v0.0.0-20220730225603-2ab79fcdd4ef/LICENSE
+- github.com/yuin/goldmark@v1.7.8 — licenses: third_party_licenses/github.com__yuin__goldmark@v1.7.8/LICENSE
+- github.com/zalando/go-keyring@v0.2.6 — licenses: third_party_licenses/github.com__zalando__go-keyring@v0.2.6/LICENSE
+- go.opentelemetry.io/auto/sdk@v1.2.1 — licenses: third_party_licenses/go.opentelemetry.io__auto__sdk@v1.2.1/LICENSE
+- go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc@v0.61.0 — licenses: third_party_licenses/go.opentelemetry.io__contrib__instrumentation__google.golang.org__grpc__otelgrpc@v0.61.0/LICENSE
+- go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp@v0.61.0 — licenses: third_party_licenses/go.opentelemetry.io__contrib__instrumentation__net__http__otelhttp@v0.61.0/LICENSE
+- go.opentelemetry.io/otel@v1.39.0 — licenses: third_party_licenses/go.opentelemetry.io__otel@v1.39.0/LICENSE
+- go.opentelemetry.io/otel/metric@v1.39.0 — licenses: third_party_licenses/go.opentelemetry.io__otel__metric@v1.39.0/LICENSE
+- go.opentelemetry.io/otel/trace@v1.39.0 — licenses: third_party_licenses/go.opentelemetry.io__otel__trace@v1.39.0/LICENSE
+- golang.org/x/crypto@v0.47.0 — licenses: third_party_licenses/golang.org__x__crypto@v0.47.0/LICENSE
+- golang.org/x/image@v0.24.0 — licenses: third_party_licenses/golang.org__x__image@v0.24.0/LICENSE
+- golang.org/x/net@v0.49.0 — licenses: third_party_licenses/golang.org__x__net@v0.49.0/LICENSE
+- golang.org/x/oauth2@v0.34.0 — licenses: third_party_licenses/golang.org__x__oauth2@v0.34.0/LICENSE
+- golang.org/x/sync@v0.19.0 — licenses: third_party_licenses/golang.org__x__sync@v0.19.0/LICENSE
+- golang.org/x/sys@v0.40.0 — licenses: third_party_licenses/golang.org__x__sys@v0.40.0/LICENSE
+- golang.org/x/term@v0.39.0 — licenses: third_party_licenses/golang.org__x__term@v0.39.0/LICENSE
+- golang.org/x/text@v0.33.0 — licenses: third_party_licenses/golang.org__x__text@v0.33.0/LICENSE
+- golang.org/x/time@v0.14.0 — licenses: third_party_licenses/golang.org__x__time@v0.14.0/LICENSE
+- google.golang.org/api@v0.262.0 — licenses: third_party_licenses/google.golang.org__api@v0.262.0/LICENSE
+- google.golang.org/genproto/googleapis/api@v0.0.0-20251202230838-ff82c1b0f217 — licenses: third_party_licenses/google.golang.org__genproto__googleapis__api@v0.0.0-20251202230838-ff82c1b0f217/LICENSE
+- google.golang.org/genproto/googleapis/rpc@v0.0.0-20260120174246-409b4a993575 — licenses: third_party_licenses/google.golang.org__genproto__googleapis__rpc@v0.0.0-20260120174246-409b4a993575/LICENSE
+- google.golang.org/grpc@v1.78.0 — licenses: third_party_licenses/google.golang.org__grpc@v1.78.0/LICENSE; third_party_licenses/google.golang.org__grpc@v1.78.0/NOTICE.txt
+- google.golang.org/protobuf@v1.36.11 — licenses: third_party_licenses/google.golang.org__protobuf@v1.36.11/LICENSE

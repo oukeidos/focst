@@ -1,0 +1,205 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gcc \
+            imagemagick \
+            pkg-config \
+            libgl1-mesa-dev \
+            libx11-dev \
+            libxcursor-dev \
+            libxrandr-dev \
+            libxinerama-dev \
+            libxi-dev \
+            libxkbcommon-dev \
+            libxkbcommon-x11-dev \
+            libxxf86vm-dev \
+            xorg-dev
+
+      - uses: goreleaser/goreleaser-action@v6
+        with:
+          version: "~> v2"
+          args: build --clean --single-target --id focst --id focst-gui
+
+      - name: Stage packaging files
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}"
+          STAGE="dist/stage/linux"
+          rm -rf "$STAGE"
+          mkdir -p "$STAGE"
+          cp LICENSE "$STAGE/"
+          cp *.md "$STAGE/"
+          cp -R third_party_licenses "$STAGE/"
+          rm -f "$STAGE/THIRD_PARTY_LICENSES_FULL.txt"
+          find "$STAGE" -name .gitkeep -delete
+
+          CLI_STAGE="dist/stage/linux-cli"
+          rm -rf "$CLI_STAGE"
+          mkdir -p "$CLI_STAGE"
+          cp -R "$STAGE/"* "$CLI_STAGE/"
+          CLI_BIN=$(find dist -type f -name focst | head -n 1)
+          install -m 0755 "$CLI_BIN" "$CLI_STAGE/focst"
+          tar -czf "FoCST_${VERSION}_linux_amd64_cli.tar.gz" -C "$CLI_STAGE" .
+
+      - name: Build AppImage
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}"
+          APPDIR="dist/appdir"
+          rm -rf "$APPDIR"
+          mkdir -p "$APPDIR/usr/bin" "$APPDIR/usr/share/applications" "$APPDIR/usr/share/icons/hicolor/256x256/apps" "$APPDIR/usr/share/doc/FoCST"
+
+          GUI_BIN=$(find dist -type f -name focst-gui | head -n 1)
+          install -m 0755 "$GUI_BIN" "$APPDIR/usr/bin/focst-gui"
+          cp build/package/linux/FoCST.desktop "$APPDIR/usr/share/applications/FoCST.desktop"
+          convert build/assets/icon.png -resize 256x256 "$APPDIR/usr/share/icons/hicolor/256x256/apps/focst.png"
+
+          STAGE="dist/stage/linux"
+          cp "$STAGE/LICENSE" "$APPDIR/usr/share/doc/FoCST/"
+          cp "$STAGE/"*.md "$APPDIR/usr/share/doc/FoCST/" || true
+          cp -R "$STAGE/third_party_licenses" "$APPDIR/usr/share/doc/FoCST/"
+
+          curl -L -o linuxdeploy https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          curl -L -o appimagetool https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x linuxdeploy appimagetool
+
+          ./linuxdeploy --appdir "$APPDIR" --executable "$APPDIR/usr/bin/focst-gui" --desktop-file "$APPDIR/usr/share/applications/FoCST.desktop" --icon-file "$APPDIR/usr/share/icons/hicolor/256x256/apps/focst.png"
+          APPIMAGE_EXTRACT_AND_RUN=1 ./appimagetool "$APPDIR" "FoCST_${VERSION}_linux_amd64.AppImage"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-artifacts
+          path: |
+            FoCST_*_linux_amd64.AppImage
+            FoCST_*_linux_amd64_cli.tar.gz
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - uses: goreleaser/goreleaser-action@v6
+        with:
+          version: "~> v2"
+          args: build --clean --single-target --id focst --id focst-gui
+
+      - name: Stage packaging files
+        shell: pwsh
+        run: |
+          $version = $env:GITHUB_REF_NAME.TrimStart('v')
+          $stage = "dist\stage\windows"
+          if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
+          New-Item -ItemType Directory -Path $stage | Out-Null
+          Copy-Item LICENSE $stage
+          Get-ChildItem -Filter *.md | ForEach-Object { Copy-Item $_.FullName $stage }
+          Copy-Item third_party_licenses -Recurse $stage
+          if (Test-Path "$stage\THIRD_PARTY_LICENSES_FULL.txt") { Remove-Item "$stage\THIRD_PARTY_LICENSES_FULL.txt" }
+          Get-ChildItem -Path $stage -Recurse -Filter .gitkeep | Remove-Item -Force
+
+          $binDir = Join-Path $stage "bin"
+          New-Item -ItemType Directory -Path $binDir | Out-Null
+          $cliBin = Get-ChildItem -Path dist -Recurse -Filter focst.exe | Select-Object -First 1
+          Copy-Item $cliBin.FullName (Join-Path $binDir "focst.exe")
+          $guiBin = Get-ChildItem -Path dist -Recurse -Filter focst-gui.exe | Select-Object -First 1
+          Copy-Item $guiBin.FullName (Join-Path $stage "focst-gui.exe")
+
+          $licensePath = Join-Path $stage "LICENSE"
+          $rtfPath = Join-Path $stage "LICENSE.rtf"
+          $lines = Get-Content $licensePath
+          $escaped = $lines | ForEach-Object { $_.Replace('\', '\\').Replace('{', '\{').Replace('}', '\}') }
+          $rtf = "{\rtf1\ansi`n" + ($escaped -join "\par`n") + "\par`n}"
+          Set-Content -Path $rtfPath -Value $rtf -Encoding ASCII
+          Copy-Item build\\assets\\icon.ico (Join-Path $stage 'focst.ico')
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          choco install innosetup -y
+
+      - name: Build installer (Inno Setup)
+        shell: pwsh
+        run: |
+          $version = $env:GITHUB_REF_NAME.TrimStart('v')
+          $stage = (Resolve-Path "dist\\stage\\windows").Path
+          New-Item -ItemType Directory -Force -Path "dist\\release" | Out-Null
+          $iscc = "C:\\Program Files (x86)\\Inno Setup 6\\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            $iscc = "C:\\Program Files\\Inno Setup 6\\ISCC.exe"
+          }
+          & $iscc /O"dist\\release" /DAppVersion=$version /DStagingDir="$stage" build\\package\\windows\\installer.iss
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifacts
+          path: |
+            dist/release/FoCST_*_windows_amd64.exe
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [build-linux, build-windows]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/release
+
+      - name: Prepare release assets
+        run: |
+          set -euo pipefail
+          cd dist/release
+          find . -type f \( -name "*.AppImage" -o -name "*.tar.gz" -o -name "*.exe" \) -print > files.txt
+          if [ -s files.txt ]; then
+            while read -r file; do
+              base=$(basename "$file")
+              cp "$file" "$base"
+            done < files.txt
+          fi
+          rm -rf linux-artifacts windows-artifacts
+          shopt -s nullglob
+          files=(FoCST_*.AppImage FoCST_*.tar.gz FoCST_*.exe)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No release assets found." >&2
+            exit 1
+          fi
+          sha256sum "${files[@]}" > checksums.txt
+          printf '%s\n' "${files[@]}" > assets.txt
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          cd dist/release
+          gh release create "$GITHUB_REF_NAME" \
+            --title "FoCST ${VERSION}" \
+            --notes "FoCST ${VERSION}" \
+            $(cat assets.txt) checksums.txt

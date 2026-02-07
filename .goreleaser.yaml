@@ -1,0 +1,46 @@
+version: 2
+
+project_name: focst
+
+release:
+  disable: true
+
+changelog:
+  disable: true
+
+checksum:
+  disable: true
+
+builds:
+  - id: focst
+    main: ./cmd/focst
+    binary: focst
+    goos:
+      - linux
+      - windows
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=1
+    ldflags:
+      - -s -w
+      - -X github.com/oukeidos/focst/internal/version.Version={{.Version}}
+      - -X github.com/oukeidos/focst/internal/version.Commit={{.Commit}}
+      - -X github.com/oukeidos/focst/internal/version.BuildDate={{ .Date }}
+
+  - id: focst-gui
+    main: ./cmd/focst-gui
+    binary: focst-gui
+    goos:
+      - linux
+      - windows
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=1
+    ldflags:
+      - -s -w
+      - -X github.com/oukeidos/focst/internal/version.Version={{.Version}}
+      - -X github.com/oukeidos/focst/internal/version.Commit={{.Commit}}
+      - -X github.com/oukeidos/focst/internal/version.BuildDate={{ .Date }}
+      - '{{ if eq .Os "windows" }}-H=windowsgui{{ end }}'

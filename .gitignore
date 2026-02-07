@@ -1,0 +1,59 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with Litmus
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Project specific binaries
+/focst
+/focst-gui
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+/debug_test/
+/dist/
+/scripts/
+/build/package/windows/build.ps1
+
+# Secrets
+.env
+.env.local
+
+# Focst Runtime Files
+*.log
+*.jsonl
+*.app
+*.dmg
+fyne_bundle.go
+linuxdeploy
+appimagetool
+*.msi
+*.AppImage
+*.tar.gz
+*.wixpdb
+*.wixobj
+checksums.txt
+
+# Windows System Files
+ehthumbs.db
+Desktop.ini
+# Generated license bundle (keep embedded copy tracked).
+/THIRD_PARTY_LICENSES_FULL.txt

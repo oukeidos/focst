@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=FoCST
+Exec=focst-gui
+Icon=focst
+Type=Application
+Categories=Utility;
