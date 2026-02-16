@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	parenRegex = regexp.MustCompile(`\(.*?\)|\[.*?\]`)
+	parenRegex = regexp.MustCompile(`\([^)]*\)|\[[^\]]*\]|（[^）]*）|［[^］]*］`)
 )
 
 // IDMap tracks mapping from internal IDs to original IDs.
@@ -17,8 +17,8 @@ type IDMap struct {
 }
 
 // Preprocess performs cleaning and filtering on the provided segments.
-// It removes text within () and [], filters out segments with only symbols,
-// and re-indexes the remaining segments.
+// It removes text within (), [], （）, and ［］, filters out segments with only
+// symbols, and re-indexes the remaining segments.
 // Bracket removal and meaningless filtering are restricted to Japanese ("ja").
 func Preprocess(segments []Segment, sourceLangCode string) []Segment {
 	cleaned, _ := PreprocessWithMappingOptions(segments, sourceLangCode, true)

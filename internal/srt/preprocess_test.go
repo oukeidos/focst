@@ -71,6 +71,18 @@ func TestPreprocess(t *testing.T) {
 				{ID: 1, Lines: []string{"Hello", "Normal text", "LeftRight"}},
 			},
 		},
+		{
+			name: "Remove fullwidth parentheses and brackets",
+			segments: []Segment{
+				{ID: 1, Lines: []string{"Hello（world）", "［Action］ Good morning"}},
+				{ID: 2, Lines: []string{"（SFX）"}},
+				{ID: 3, Lines: []string{"Bye"}},
+			},
+			expected: []Segment{
+				{ID: 1, Lines: []string{"Hello", "Good morning"}},
+				{ID: 2, Lines: []string{"Bye"}},
+			},
+		},
 	}
 
 	for _, tt := range tests {
@@ -80,6 +92,20 @@ func TestPreprocess(t *testing.T) {
 				t.Errorf("Preprocess() = %+v, want %+v", cleaned, tt.expected)
 			}
 		})
+	}
+}
+
+func TestPreprocess_FullwidthBracketsNotAppliedForNonJapanese(t *testing.T) {
+	segments := []Segment{
+		{ID: 1, Lines: []string{"Hello（world）", "［Action］ Good morning"}},
+	}
+
+	cleaned := Preprocess(segments, "en")
+	expected := []Segment{
+		{ID: 1, Lines: []string{"Hello（world）", "［Action］ Good morning"}},
+	}
+	if !reflect.DeepEqual(cleaned, expected) {
+		t.Errorf("Preprocess() = %+v, want %+v", cleaned, expected)
 	}
 }
 
