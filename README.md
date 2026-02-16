@@ -33,7 +33,7 @@ Notes:
 
 Prebuilt packages are intended to be published on GitHub Releases.
 
-- Windows (MSI)
+- Windows (EXE)
   - Installs per-user by default (for example, under your user profile).
   - Expect Start Menu and desktop shortcuts.
   - Windows SmartScreen may show a warning for unsigned or new binaries.
