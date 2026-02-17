@@ -1,6 +1,7 @@
 package srt
 
 import (
+	"path/filepath"
 	"regexp"
 	"strings"
 	"unicode"
@@ -31,9 +32,24 @@ func PreprocessWithOptions(segments []Segment, sourceLangCode string, applyLangR
 	return cleaned
 }
 
+// PreprocessForPathWithOptions performs preprocessing with optional
+// language-specific rules and file-format-specific normalization.
+func PreprocessForPathWithOptions(segments []Segment, sourceLangCode, sourcePath string, applyLangRules bool) []Segment {
+	cleaned, _ := PreprocessForPathWithMappingOptions(segments, sourceLangCode, sourcePath, applyLangRules)
+	return cleaned
+}
+
 // PreprocessWithMapping performs preprocessing and returns ID mappings.
 func PreprocessWithMapping(segments []Segment, sourceLangCode string) ([]Segment, []IDMap) {
 	return PreprocessWithMappingOptions(segments, sourceLangCode, true)
+}
+
+// PreprocessForPathWithMappingOptions performs preprocessing and returns ID mappings.
+// For WebVTT inputs, consecutive segments with identical start/end timestamps are
+// merged into one segment in appearance order before other preprocessing rules.
+func PreprocessForPathWithMappingOptions(segments []Segment, sourceLangCode, sourcePath string, applyLangRules bool) ([]Segment, []IDMap) {
+	normalized := normalizeBySourcePath(segments, sourcePath)
+	return PreprocessWithMappingOptions(normalized, sourceLangCode, applyLangRules)
 }
 
 // PreprocessWithMappingOptions performs preprocessing and returns ID mappings.
@@ -97,4 +113,35 @@ func isMeaningless(lines []string) bool {
 		}
 	}
 	return true
+}
+
+func normalizeBySourcePath(segments []Segment, sourcePath string) []Segment {
+	if !strings.EqualFold(filepath.Ext(sourcePath), ".vtt") {
+		return segments
+	}
+	return mergeConsecutiveSameTimestampSegments(segments)
+}
+
+func mergeConsecutiveSameTimestampSegments(segments []Segment) []Segment {
+	if len(segments) < 2 {
+		return segments
+	}
+
+	merged := make([]Segment, 0, len(segments))
+	current := segments[0]
+	current.Lines = append([]string(nil), current.Lines...)
+
+	for i := 1; i < len(segments); i++ {
+		next := segments[i]
+		if next.StartTime == current.StartTime && next.EndTime == current.EndTime {
+			current.Lines = append(current.Lines, next.Lines...)
+			continue
+		}
+		merged = append(merged, current)
+		current = next
+		current.Lines = append([]string(nil), current.Lines...)
+	}
+
+	merged = append(merged, current)
+	return merged
 }

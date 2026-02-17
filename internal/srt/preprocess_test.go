@@ -134,3 +134,139 @@ func TestPreprocessWithMapping(t *testing.T) {
 		t.Fatalf("unexpected mapping[2]: %+v", mapping[2])
 	}
 }
+
+func TestPreprocessForPathWithMappingOptions_MergeConsecutiveEqualTimestampsInVTT(t *testing.T) {
+	segments := []Segment{
+		{
+			ID:        10,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"first"},
+		},
+		{
+			ID:        11,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"second"},
+		},
+		{
+			ID:        12,
+			StartTime: "00:00:04,000",
+			EndTime:   "00:00:05,000",
+			Lines:     []string{"third"},
+		},
+	}
+
+	cleaned, mapping := PreprocessForPathWithMappingOptions(segments, "en", "sample.vtt", false)
+	expected := []Segment{
+		{
+			ID:        1,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"first", "second"},
+		},
+		{
+			ID:        2,
+			StartTime: "00:00:04,000",
+			EndTime:   "00:00:05,000",
+			Lines:     []string{"third"},
+		},
+	}
+	if !reflect.DeepEqual(cleaned, expected) {
+		t.Fatalf("cleaned = %+v, want %+v", cleaned, expected)
+	}
+
+	if len(mapping) != 2 {
+		t.Fatalf("expected 2 mappings, got %d", len(mapping))
+	}
+	if mapping[0].InternalID != 1 || mapping[0].OriginalID != 10 {
+		t.Fatalf("unexpected mapping[0]: %+v", mapping[0])
+	}
+	if mapping[1].InternalID != 2 || mapping[1].OriginalID != 12 {
+		t.Fatalf("unexpected mapping[1]: %+v", mapping[1])
+	}
+}
+
+func TestPreprocessForPathWithMappingOptions_NoMergeForNonVTT(t *testing.T) {
+	segments := []Segment{
+		{
+			ID:        1,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"first"},
+		},
+		{
+			ID:        2,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"second"},
+		},
+	}
+
+	cleaned, _ := PreprocessForPathWithMappingOptions(segments, "en", "sample.srt", false)
+	expected := []Segment{
+		{
+			ID:        1,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"first"},
+		},
+		{
+			ID:        2,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"second"},
+		},
+	}
+	if !reflect.DeepEqual(cleaned, expected) {
+		t.Fatalf("cleaned = %+v, want %+v", cleaned, expected)
+	}
+}
+
+func TestPreprocessForPathWithMappingOptions_NoMergeForSeparatedGroups(t *testing.T) {
+	segments := []Segment{
+		{
+			ID:        1,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"first"},
+		},
+		{
+			ID:        2,
+			StartTime: "00:00:04,000",
+			EndTime:   "00:00:05,000",
+			Lines:     []string{"middle"},
+		},
+		{
+			ID:        3,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"last"},
+		},
+	}
+
+	cleaned, _ := PreprocessForPathWithMappingOptions(segments, "en", "sample.vtt", false)
+	expected := []Segment{
+		{
+			ID:        1,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"first"},
+		},
+		{
+			ID:        2,
+			StartTime: "00:00:04,000",
+			EndTime:   "00:00:05,000",
+			Lines:     []string{"middle"},
+		},
+		{
+			ID:        3,
+			StartTime: "00:00:01,000",
+			EndTime:   "00:00:03,000",
+			Lines:     []string{"last"},
+		},
+	}
+	if !reflect.DeepEqual(cleaned, expected) {
+		t.Fatalf("cleaned = %+v, want %+v", cleaned, expected)
+	}
+}

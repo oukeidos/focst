@@ -101,7 +101,7 @@ func RunTranslation(ctx context.Context, cfg Config) (TranslationResult, error) 
 
 	if !cfg.NoPreprocess {
 		var idMap []srt.IDMap
-		segments, idMap = srt.PreprocessWithMappingOptions(segments, srcLang.Code, !cfg.NoLangPreprocess)
+		segments, idMap = srt.PreprocessForPathWithMappingOptions(segments, srcLang.Code, cfg.InputPath, !cfg.NoLangPreprocess)
 		logger.Info("Preprocessing complete", "count", len(segments))
 		if cfg.LogPath != "" && len(idMap) > 0 {
 			if err := writeIDMap(cfg.LogPath, idMap); err != nil {

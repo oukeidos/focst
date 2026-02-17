@@ -19,7 +19,7 @@ func Repair(ctx context.Context, tr *translator.Translator, log *SessionLog, res
 
 	// Preprocess to match the state during the first run
 	if !log.NoPreprocess {
-		segments = srt.PreprocessWithOptions(segments, log.SourceLang, !log.NoLangPreprocess)
+		segments = srt.PreprocessForPathWithOptions(segments, log.SourceLang, log.InputPath, !log.NoLangPreprocess)
 	}
 
 	// 2. Load current output SRT (partial success) to preserve previous translations.

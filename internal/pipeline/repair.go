@@ -68,7 +68,7 @@ func RunRepair(ctx context.Context, cfg Config) (RepairResult, error) {
 		return RepairResult{}, fmt.Errorf("input file content mismatch: expected %s, got %s", logFile.InputHash, inputHash)
 	}
 	if !logFile.NoPreprocess {
-		segments = srt.PreprocessWithOptions(segments, logFile.SourceLang, !logFile.NoLangPreprocess)
+		segments = srt.PreprocessForPathWithOptions(segments, logFile.SourceLang, runtimeLog.InputPath, !logFile.NoLangPreprocess)
 	}
 	segmentsChecksum := srt.SegmentsChecksumHex(segments)
 	if segmentsChecksum != logFile.SegmentsChecksum {
