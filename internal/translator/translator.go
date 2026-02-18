@@ -73,7 +73,8 @@ Translate the provided %s subtitle segments into %s.
 3. Rules:
 - Maintain the original tone and context.
 - Follow **Standard Cinematic Subtitle Punctuation** for %s.
-- Write ONLY the %s translation; do not include the %s source text.`,
+- Write ONLY the %s translation; do not include the %s source text.
+- Do NOT use "/" as a line-break substitute in subtitle text.`,
 		sourceName, targetName, sourceName, targetName, lineGuidance, targetName, targetName, sourceName)
 }
 

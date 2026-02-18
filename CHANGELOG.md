@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.1] - 2026-02-16
+## [0.1.2] - 2026-02-18
+
+### Changed
+- Added a system prompt rule: `Do NOT use "/" as a line-break substitute in subtitle text.`
+
+## [0.1.1] - 2026-02-17
 
 ### Changed
 - Added VTT-specific preprocessing that merges consecutive segments with identical start/end timestamps into a single multi-line segment in source order.

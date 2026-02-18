@@ -192,3 +192,21 @@ func TestTranslator_MergeResultsStrictValidation(t *testing.T) {
 		})
 	}
 }
+
+func TestGetSystemPrompt_IncludesSlashRule(t *testing.T) {
+	rule := "Do NOT use \"/\" as a line-break substitute in subtitle text."
+
+	t.Run("without_cpl_enforcement", func(t *testing.T) {
+		prompt := GetSystemPrompt("Japanese", "Korean", 13, false)
+		if !strings.Contains(prompt, rule) {
+			t.Fatalf("expected prompt to contain slash rule")
+		}
+	})
+
+	t.Run("with_cpl_enforcement", func(t *testing.T) {
+		prompt := GetSystemPrompt("Japanese", "Korean", 13, true)
+		if !strings.Contains(prompt, rule) {
+			t.Fatalf("expected prompt to contain slash rule")
+		}
+	})
+}
