@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Removed the example text from the names extractor prompt.
+- Added `gemini-3.1-pro-preview` to the embedded Gemini model metadata (GUI model list and CLI cost lookup).
 
 ## [0.1.2] - 2026-02-18
 
