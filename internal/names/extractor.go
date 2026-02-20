@@ -43,7 +43,7 @@ func (e *Extractor) Extract(ctx context.Context, workType, title, year string, m
 
 	prompt := fmt.Sprintf(`Search for the %s %s titled "%s" released in %s. 
 Extract a list of major characters. For each character, provide their name in %s and its standard %s transliteration.
-IMPORTANT: Return ONLY the name itself. Do NOT include any URLs, source links, brackets, or explanations (e.g., "[tbs.co.jp]", "(voice)").`,
+IMPORTANT: Return ONLY the name itself. Do NOT include any URLs, source links, brackets, or explanations.`,
 		sourceLang.Name, workType, title, year, sourceLang.Name, targetLang.Name)
 
 	if maxTokens <= 0 {

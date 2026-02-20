@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.3] - 2026-02-20
+
+### Changed
+- Removed the example text from the names extractor prompt.
+
 ## [0.1.2] - 2026-02-18
 
 ### Changed
