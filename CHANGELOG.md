@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.4] - 2026-02-26
+
+### Changed
+- Removed `gemini-3-pro-preview` support from embedded Gemini model metadata.
+- Added GUI config fallback: if a saved model is no longer supported, it is reset to `gemini-3-flash-preview`.
+
 ## [0.1.3] - 2026-02-20
 
 ### Changed

@@ -7,6 +7,7 @@ import (
 	"fyne.io/fyne/v2"
 
 	"github.com/oukeidos/focst/internal/logger"
+	"github.com/oukeidos/focst/internal/metadata"
 	"github.com/oukeidos/focst/internal/names"
 	"github.com/oukeidos/focst/internal/pipeline"
 )
@@ -35,6 +36,7 @@ const (
 	maxChunkSizeGUI     = 200
 	maxContextSizeGUI   = 20
 	maxExtractionTokens = 128000
+	defaultGUIModel     = "gemini-3-flash-preview"
 )
 
 func (a *focstApp) loadConfig() {
@@ -44,7 +46,11 @@ func (a *focstApp) loadConfig() {
 
 	a.config.SourceLang = prefs.StringWithFallback("SourceLang", "ja")
 	a.config.TargetLang = prefs.StringWithFallback("TargetLang", "ko")
-	a.config.Model = prefs.StringWithFallback("Model", "gemini-3-flash-preview")
+	savedModel := prefs.StringWithFallback("Model", defaultGUIModel)
+	a.config.Model = normalizeGeminiModel(savedModel)
+	if a.config.Model != savedModel {
+		prefs.SetString("Model", a.config.Model)
+	}
 	a.config.LastDict = prefs.String("LastDict")
 	a.config.NamesMapping = make(map[string]string)
 
@@ -101,6 +107,19 @@ func (a *focstApp) loadConfig() {
 	home, _ := os.UserHomeDir()
 	namesDir := filepath.Join(home, ".focst", "names")
 	os.MkdirAll(namesDir, 0700)
+}
+
+func normalizeGeminiModel(model string) string {
+	if model == "" {
+		return defaultGUIModel
+	}
+	for _, id := range metadata.GeminiModelIDs() {
+		if model == id {
+			return model
+		}
+	}
+	logger.Warn("Unsupported model in preferences; fallback to default", "requested", model, "default", defaultGUIModel)
+	return defaultGUIModel
 }
 
 func (a *focstApp) saveConfig() {

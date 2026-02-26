@@ -24,13 +24,6 @@ var GeminiModels = []GeminiModel{
 		ReasoningBilledAsOutput: true,
 	},
 	{
-		ID:                     "gemini-3-pro-preview",
-		Label:                  "Gemini 3 Pro (preview)",
-		InputPerMillion:        2.00,
-		OutputPerMillion:       12.00,
-		ReasoningBilledAsOutput: true,
-	},
-	{
 		ID:                     "gemini-3.1-pro-preview",
 		Label:                  "Gemini 3.1 Pro (preview)",
 		InputPerMillion:        2.00,
