@@ -41,10 +41,10 @@ var GeminiModels = []GeminiModel{
 
 var OpenAIModels = []OpenAIModel{
 	{
-		ID:               "gpt-5.2",
-		Label:            "GPT-5.2",
-		InputPerMillion:  1.75,
-		OutputPerMillion: 14.00,
+		ID:               "gpt-5.6-sol",
+		Label:            "GPT-5.6 Sol",
+		InputPerMillion:  4.00,
+		OutputPerMillion: 20.00,
 	},
 }
 

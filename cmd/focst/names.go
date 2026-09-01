@@ -30,7 +30,7 @@ func newNamesCmd() *cobra.Command {
 	opts := namesOptions{}
 	cmd := &cobra.Command{
 		Use:   "names [options] <output.json>",
-		Short: "Extract character name mappings using GPT-5.2",
+		Short: "Extract character name mappings using GPT-5.6 Sol",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if opts.title == "" {
 				_ = cmd.Usage()
@@ -124,7 +124,7 @@ func runNames(cmd *cobra.Command, args []string, opts *namesOptions) error {
 		return err
 	}
 
-	client := openai.NewClient(key, "gpt-5.2")
+	client := openai.NewClient(key, "gpt-5.6-sol")
 	extractor := names.NewExtractor(client)
 
 	logger.Info("Extracting character names", "title", opts.title, "type", opts.workType)

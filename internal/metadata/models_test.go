@@ -59,6 +59,16 @@ func TestOpenAIPricing_Default(t *testing.T) {
 	}
 }
 
+func TestOpenAIPricing(t *testing.T) {
+	m, ok := OpenAIPricing("gpt-5.6-sol")
+	if !ok {
+		t.Fatal("expected pricing for gpt-5.6-sol")
+	}
+	if m.InputPerMillion != 4.00 || m.OutputPerMillion != 20.00 {
+		t.Fatalf("unexpected gpt-5.6-sol pricing: %+v", m)
+	}
+}
+
 func TestGeminiModelIDs_ExcludeRemovedModels(t *testing.T) {
 	removed := map[string]bool{
 		"gemini-3-flash-preview": true,

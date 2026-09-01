@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Added SRT/VTT text entity normalization.
 - Updated supported Gemini models, defaults, and pricing.
+- Changed the character-name extraction model from `gpt-5.2` to `gpt-5.6-sol`.
 
 ## [0.1.4] - 2026-02-27
 

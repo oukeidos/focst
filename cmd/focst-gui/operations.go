@@ -172,7 +172,7 @@ func (a *focstApp) startNameExtraction(workType, title, year string, parent fyne
 
 	a.safeGo("ops.names.extract", func() {
 		defer a.clearActiveCancel(cancelID)
-		client := openai.NewClient(key, "gpt-5.2")
+		client := openai.NewClient(key, "gpt-5.6-sol")
 		ex := names.NewExtractor(client)
 		src := a.config.SourceLang
 		tgt := a.config.TargetLang
