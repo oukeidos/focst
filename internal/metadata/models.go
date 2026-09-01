@@ -1,10 +1,10 @@
 package metadata
 
 type GeminiModel struct {
-	ID                     string
-	Label                  string
-	InputPerMillion        float64
-	OutputPerMillion       float64
+	ID                      string
+	Label                   string
+	InputPerMillion         float64
+	OutputPerMillion        float64
 	ReasoningBilledAsOutput bool
 }
 
@@ -17,17 +17,24 @@ type OpenAIModel struct {
 
 var GeminiModels = []GeminiModel{
 	{
-		ID:                     "gemini-3-flash-preview",
-		Label:                  "Gemini 3 Flash (preview)",
-		InputPerMillion:        0.50,
-		OutputPerMillion:       3.00,
+		ID:                      "gemini-3.7-flash",
+		Label:                   "Gemini 3.7 Flash",
+		InputPerMillion:         0.75,
+		OutputPerMillion:        3.75,
 		ReasoningBilledAsOutput: true,
 	},
 	{
-		ID:                     "gemini-3.1-pro-preview",
-		Label:                  "Gemini 3.1 Pro (preview)",
-		InputPerMillion:        2.00,
-		OutputPerMillion:       12.00,
+		ID:                      "gemini-3.5-flash-lite",
+		Label:                   "Gemini 3.5 Flash-Lite",
+		InputPerMillion:         0.30,
+		OutputPerMillion:        2.50,
+		ReasoningBilledAsOutput: true,
+	},
+	{
+		ID:                      "gemini-3.1-pro-preview",
+		Label:                   "Gemini 3.1 Pro (preview)",
+		InputPerMillion:         2.00,
+		OutputPerMillion:        12.00,
 		ReasoningBilledAsOutput: true,
 	},
 }
@@ -44,8 +51,6 @@ var OpenAIModels = []OpenAIModel{
 const (
 	DefaultOpenAIInputPerMillion  = 2.50
 	DefaultOpenAIOutputPerMillion = 10.00
-	DefaultGeminiInputPerMillion  = 2.00
-	DefaultGeminiOutputPerMillion = 12.00
 	WebSearchCostPerCall          = 0.01
 )
 
@@ -63,13 +68,7 @@ func GeminiPricing(modelID string) (GeminiModel, bool) {
 			return m, true
 		}
 	}
-	return GeminiModel{
-		ID:                     "default",
-		Label:                  "Default Gemini",
-		InputPerMillion:        DefaultGeminiInputPerMillion,
-		OutputPerMillion:       DefaultGeminiOutputPerMillion,
-		ReasoningBilledAsOutput: true,
-	}, false
+	return GeminiModel{}, false
 }
 
 func OpenAIPricing(modelID string) (OpenAIModel, bool) {

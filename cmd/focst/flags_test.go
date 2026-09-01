@@ -3,6 +3,8 @@ package main
 import (
 	"strings"
 	"testing"
+
+	"github.com/spf13/cobra"
 )
 
 func TestOverwriteFlag_AcceptsYesAndShorthand(t *testing.T) {
@@ -46,6 +48,26 @@ func TestOverwriteFlag_RejectsDeprecatedLongY(t *testing.T) {
 			}
 			if !strings.Contains(out, "unknown flag: --y") {
 				t.Fatalf("expected unknown flag: --y, got output: %s", out)
+			}
+		})
+	}
+}
+
+func TestTranslateModelDefault(t *testing.T) {
+	for _, tc := range []struct {
+		name string
+		cmd  *cobra.Command
+	}{
+		{name: "root", cmd: newRootCmd()},
+		{name: "translate", cmd: newTranslateCmd()},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			flag := tc.cmd.Flags().Lookup("model")
+			if flag == nil {
+				t.Fatal("model flag not found")
+			}
+			if flag.DefValue != "gemini-3.7-flash" {
+				t.Fatalf("model default = %q, want %q", flag.DefValue, "gemini-3.7-flash")
 			}
 		})
 	}

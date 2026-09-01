@@ -15,7 +15,7 @@ func TestIsModelNotFound(t *testing.T) {
 	}{
 		{"The model `gpt-5.2` does not exist or you do not have access to it.", true},
 		{"code: model_not_found", true},
-		{"models/gemini-3-flash-preview is not found for API version v1beta, or is not supported for generateContent", true},
+		{"models/gemini-3.7-flash is not found for API version v1beta, or is not supported for generateContent", true},
 		{"Publisher Model foo was not found or your project does not have access to it.", true},
 		{"Gemini model not found or no access (404).", true},
 		{"random error", false},

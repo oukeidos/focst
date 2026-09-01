@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"os"
 	"os/signal"
 	"strings"
@@ -105,11 +106,15 @@ func loadNamesMapping(path, sourceCode, targetCode string) (map[string]string, e
 }
 
 func printUsageStats(usage *gemini.UsageMetadata, duration time.Duration, model string) {
-	fmt.Println("\n--- Execution Stats ---")
-	fmt.Printf("Time: %s\n", duration)
-	fmt.Printf("Model: %s\n", model)
+	printUsageStatsTo(os.Stdout, usage, duration, model)
+}
+
+func printUsageStatsTo(w io.Writer, usage *gemini.UsageMetadata, duration time.Duration, model string) {
+	fmt.Fprintln(w, "\n--- Execution Stats ---")
+	fmt.Fprintf(w, "Time: %s\n", duration)
+	fmt.Fprintf(w, "Model: %s\n", model)
 	if usage != nil && usage.TotalTokenCount > 0 {
-		fmt.Printf("Tokens: In=%d, Out=%d, Total=%d, Web=%d\n",
+		fmt.Fprintf(w, "Tokens: In=%d, Out=%d, Total=%d, Web=%d\n",
 			usage.PromptTokenCount, usage.CandidatesTokenCount, usage.TotalTokenCount, usage.WebSearchCount)
 
 		// Gemini Cost Estimation
@@ -121,14 +126,17 @@ func printUsageStats(usage *gemini.UsageMetadata, duration time.Duration, model 
 		}
 		billableOutput := usage.CandidatesTokenCount + reasoningTokens
 
-		pricing, _ := metadata.GeminiPricing(model)
+		pricing, ok := metadata.GeminiPricing(model)
+		if !ok {
+			return
+		}
 		inRate := pricing.InputPerMillion
 		outRate := pricing.OutputPerMillion
 
 		inCost := (float64(usage.PromptTokenCount) / 1_000_000) * inRate
 		outCost := (float64(billableOutput) / 1_000_000) * outRate
 
-		fmt.Printf("Estimated Cost: $%.5f (Reasoning Tokens: %d)\n", inCost+outCost, reasoningTokens)
+		fmt.Fprintf(w, "Estimated Cost: $%.5f (Reasoning Tokens: %d)\n", inCost+outCost, reasoningTokens)
 	}
 }
 

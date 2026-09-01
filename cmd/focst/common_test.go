@@ -1,7 +1,12 @@
 package main
 
 import (
+	"bytes"
+	"strings"
 	"testing"
+	"time"
+
+	"github.com/oukeidos/focst/internal/gemini"
 )
 
 type keyStubs struct {
@@ -162,5 +167,38 @@ func TestResolveAPIKey_PromptFallback(t *testing.T) {
 	}
 	if stubs.keyCalls == 0 {
 		t.Fatalf("expected keychain lookup before prompt")
+	}
+}
+
+func TestPrintUsageStats_KnownModelPrintsEstimatedCost(t *testing.T) {
+	var output bytes.Buffer
+	usage := &gemini.UsageMetadata{
+		PromptTokenCount:     1_000_000,
+		CandidatesTokenCount: 1_000_000,
+		TotalTokenCount:      2_000_000,
+	}
+
+	printUsageStatsTo(&output, usage, time.Second, "gemini-3.7-flash")
+
+	if !strings.Contains(output.String(), "Estimated Cost: $4.50000") {
+		t.Fatalf("expected known-model cost estimate, got: %s", output.String())
+	}
+}
+
+func TestPrintUsageStats_UnknownModelOmitsEstimatedCost(t *testing.T) {
+	var output bytes.Buffer
+	usage := &gemini.UsageMetadata{
+		PromptTokenCount:     100,
+		CandidatesTokenCount: 50,
+		TotalTokenCount:      150,
+	}
+
+	printUsageStatsTo(&output, usage, time.Second, "unknown-model")
+
+	if !strings.Contains(output.String(), "Tokens:") {
+		t.Fatalf("expected token usage for unknown model, got: %s", output.String())
+	}
+	if strings.Contains(output.String(), "Estimated Cost:") {
+		t.Fatalf("unexpected cost estimate for unknown model: %s", output.String())
 	}
 }

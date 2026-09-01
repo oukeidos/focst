@@ -14,9 +14,24 @@ func TestNormalizeGeminiModel(t *testing.T) {
 			want:  defaultGUIModel,
 		},
 		{
-			name:  "supported model kept",
+			name:  "default model kept",
+			input: "gemini-3.7-flash",
+			want:  "gemini-3.7-flash",
+		},
+		{
+			name:  "flash lite model kept",
+			input: "gemini-3.5-flash-lite",
+			want:  "gemini-3.5-flash-lite",
+		},
+		{
+			name:  "pro model kept",
 			input: "gemini-3.1-pro-preview",
 			want:  "gemini-3.1-pro-preview",
+		},
+		{
+			name:  "removed flash preview falls back",
+			input: "gemini-3-flash-preview",
+			want:  defaultGUIModel,
 		},
 		{
 			name:  "removed legacy model falls back",

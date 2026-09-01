@@ -18,7 +18,7 @@ func TestShouldPrintRepairStats(t *testing.T) {
 	})
 
 	t.Run("model_present", func(t *testing.T) {
-		if !shouldPrintRepairStats(pipeline.RepairResult{Model: "gemini-3-flash-preview"}) {
+		if !shouldPrintRepairStats(pipeline.RepairResult{Model: "gemini-3.7-flash"}) {
 			t.Fatalf("expected true when model is present")
 		}
 	})
@@ -68,7 +68,7 @@ func TestRunRepair_StatsPrinting(t *testing.T) {
 	t.Run("failure_with_usage_prints_stats", func(t *testing.T) {
 		runRepairPipeline = func(_ context.Context, _ pipeline.Config) (pipeline.RepairResult, error) {
 			return pipeline.RepairResult{
-				Model: "gemini-3-flash-preview",
+				Model: "gemini-3.7-flash",
 				Usage: gemini.UsageMetadata{TotalTokenCount: 100},
 			}, errors.New("repair failed after api calls")
 		}

@@ -165,7 +165,7 @@ focst input.srt output.srt
 ### Common Options
 
 - `--source`, `--target`: language codes (default `ja` -> `ko`). Use `focst list` to find codes.
-- `--model`: Gemini model ID (default `gemini-3-flash-preview`).
+- `--model`: Gemini model ID (default `gemini-3.7-flash`).
 - `--chunk-size`, `--context-size`, `--concurrency`: performance and context tuning.
 - `--retry-on-long-line`: retry when lines exceed the CPL-based limit.
 - `--no-prompt-cpl`: disable CPL constraints in the translation prompt.
