@@ -178,7 +178,7 @@ func TestPrintUsageStats_KnownModelPrintsEstimatedCost(t *testing.T) {
 		TotalTokenCount:      2_000_000,
 	}
 
-	printUsageStatsTo(&output, usage, time.Second, "gemini-3.7-flash")
+	printUsageStatsTo(&output, usage, time.Second, "gemini-3.8-flash")
 
 	if !strings.Contains(output.String(), "Estimated Cost: $4.50000") {
 		t.Fatalf("expected known-model cost estimate, got: %s", output.String())

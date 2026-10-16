@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/oukeidos/focst/internal/apperrors"
-	"google.golang.org/api/googleapi"
+	"google.golang.org/genai"
 )
 
 func classifyGeminiError(err error) error {
@@ -15,7 +15,7 @@ func classifyGeminiError(err error) error {
 
 	wrapped := fmt.Errorf("gemini generate content failed: %w", err)
 
-	var gerr *googleapi.Error
+	var gerr genai.APIError
 	if errors.As(err, &gerr) {
 		switch gerr.Code {
 		case 400, 404:

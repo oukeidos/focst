@@ -15,10 +15,12 @@ type OpenAIModel struct {
 	OutputPerMillion float64
 }
 
+// Standard token prices verified 2026-10-16; see provider pricing pages.
 var GeminiModels = []GeminiModel{
 	{
-		ID:                      "gemini-3.7-flash",
-		Label:                   "Gemini 3.7 Flash",
+		// Promotional prices through 2026-12-31; then input $1.50 / output $7.50.
+		ID:                      "gemini-3.8-flash",
+		Label:                   "Gemini 3.8 Flash",
 		InputPerMillion:         0.75,
 		OutputPerMillion:        3.75,
 		ReasoningBilledAsOutput: true,
@@ -37,14 +39,22 @@ var GeminiModels = []GeminiModel{
 		OutputPerMillion:        12.00,
 		ReasoningBilledAsOutput: true,
 	},
+	{
+		// Promotional prices through 2026-11-30; then input $4.00 / output $20.00.
+		ID:                      "gemini-4-argon",
+		Label:                   "Gemini 4 Argon",
+		InputPerMillion:         2.00,
+		OutputPerMillion:        10.00,
+		ReasoningBilledAsOutput: true,
+	},
 }
 
 var OpenAIModels = []OpenAIModel{
 	{
-		ID:               "gpt-5.6-sol",
-		Label:            "GPT-5.6 Sol",
-		InputPerMillion:  4.00,
-		OutputPerMillion: 20.00,
+		ID:               "gpt-6.1-sol",
+		Label:            "GPT-6.1 Sol",
+		InputPerMillion:  2.00,
+		OutputPerMillion: 10.00,
 	},
 }
 

@@ -165,7 +165,7 @@ focst input.srt output.srt
 ### Common Options
 
 - `--source`, `--target`: language codes (default `ja` -> `ko`). Use `focst list` to find codes.
-- `--model`: Gemini model ID (default `gemini-3.7-flash`).
+- `--model`: Gemini model ID (default `gemini-3.8-flash`).
 - `--chunk-size`, `--context-size`, `--concurrency`: performance and context tuning.
 - `--retry-on-long-line`: retry when lines exceed the CPL-based limit.
 - `--no-prompt-cpl`: disable CPL constraints in the translation prompt.
@@ -259,3 +259,23 @@ The GUI requires CGO and Fyne system dependencies for your OS.
 - Third-party notices: `THIRD_PARTY_NOTICES.md`.
 - Full third-party license texts: `third_party_licenses/`.
 - The CLI also provides `focst licenses` and `focst disclaimer`.
+
+### Model pricing reference (2026-10-16)
+
+Standard USD per million input/output tokens, excluding cache and tool charges:
+
+| Model | Input | Output |
+| --- | ---: | ---: |
+| Gemini 3.8 Flash (default) | $0.75 | $3.75 |
+| Gemini 3.5 Flash-Lite | $0.30 | $2.50 |
+| Gemini 3.1 Pro Preview | $2.00 | $12.00 |
+| Gemini 4 Argon | $2.00 | $10.00 |
+| GPT-6.1 Sol (character names) | $2.00 | $10.00 |
+
+Gemini 3.8 Flash promotional rates end 2026-12-31 (then $1.50/$7.50).
+Argon promotional rates end 2026-11-30 (then $4.00/$20.00); a paid API tier is required.
+Prices are embedded estimates as of the date above; future rate changes require an update.
+The Pro rates shown apply to prompts up to 200K tokens; GPT rates apply up to 272K input tokens.
+Reasoning tokens are billed as output. Long-context, cache, and tool charges can differ.
+See [Google pricing](https://ai.google.dev/gemini-api/docs/pricing) and
+[OpenAI pricing](https://developers.openai.com/api/docs/pricing).

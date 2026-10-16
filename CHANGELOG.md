@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.6] - 2026-10-16
+
+### Changed
+- Default Gemini translation to `gemini-3.8-flash`; retain Flash-Lite and 3.1 Pro, and add `gemini-4-argon`.
+- Update character-name extraction to `gpt-6.1-sol` and refresh model pricing.
+- Migrate Gemini to `google.golang.org/genai`, preserving JSON output, usage reporting, and application-managed retries.
+
 ## [0.1.5] - 2026-09-01
 
 ### Changed

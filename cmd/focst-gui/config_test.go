@@ -15,14 +15,16 @@ func TestNormalizeGeminiModel(t *testing.T) {
 		},
 		{
 			name:  "default model kept",
-			input: "gemini-3.7-flash",
-			want:  "gemini-3.7-flash",
+			input: "gemini-3.8-flash",
+			want:  "gemini-3.8-flash",
 		},
 		{
 			name:  "flash lite model kept",
 			input: "gemini-3.5-flash-lite",
 			want:  "gemini-3.5-flash-lite",
 		},
+		{name: "argon model kept", input: "gemini-4-argon", want: "gemini-4-argon"},
+		{name: "old flash migrates", input: "gemini-3.7-flash", want: defaultGUIModel},
 		{
 			name:  "pro model kept",
 			input: "gemini-3.1-pro-preview",

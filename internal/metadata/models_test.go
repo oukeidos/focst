@@ -7,9 +7,10 @@ import (
 
 func TestGeminiModelIDs(t *testing.T) {
 	want := []string{
-		"gemini-3.7-flash",
+		"gemini-3.8-flash",
 		"gemini-3.5-flash-lite",
 		"gemini-3.1-pro-preview",
+		"gemini-4-argon",
 	}
 	if got := GeminiModelIDs(); !reflect.DeepEqual(got, want) {
 		t.Fatalf("GeminiModelIDs() = %v, want %v", got, want)
@@ -22,8 +23,9 @@ func TestGeminiPricing(t *testing.T) {
 		wantInput  float64
 		wantOutput float64
 	}{
-		{model: "gemini-3.7-flash", wantInput: 0.75, wantOutput: 3.75},
+		{model: "gemini-3.8-flash", wantInput: 0.75, wantOutput: 3.75},
 		{model: "gemini-3.5-flash-lite", wantInput: 0.30, wantOutput: 2.50},
+		{model: "gemini-4-argon", wantInput: 2.00, wantOutput: 10.00},
 		{model: "gemini-3.1-pro-preview", wantInput: 2.00, wantOutput: 12.00},
 	}
 	for _, tc := range tests {
@@ -60,12 +62,12 @@ func TestOpenAIPricing_Default(t *testing.T) {
 }
 
 func TestOpenAIPricing(t *testing.T) {
-	m, ok := OpenAIPricing("gpt-5.6-sol")
+	m, ok := OpenAIPricing("gpt-6.1-sol")
 	if !ok {
-		t.Fatal("expected pricing for gpt-5.6-sol")
+		t.Fatal("expected pricing for gpt-6.1-sol")
 	}
-	if m.InputPerMillion != 4.00 || m.OutputPerMillion != 20.00 {
-		t.Fatalf("unexpected gpt-5.6-sol pricing: %+v", m)
+	if m.InputPerMillion != 2.00 || m.OutputPerMillion != 10.00 {
+		t.Fatalf("unexpected gpt-6.1-sol pricing: %+v", m)
 	}
 }
 
