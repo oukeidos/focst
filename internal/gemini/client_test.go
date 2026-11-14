@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/oukeidos/focst/internal/apperrors"
 	"github.com/oukeidos/focst/internal/httpclient"
+	"github.com/oukeidos/focst/internal/metadata"
 	"io"
 	"net/http"
 	"strings"
@@ -101,7 +102,7 @@ type roundTripFunc func(*http.Request) (*http.Response, error)
 func (f roundTripFunc) RoundTrip(req *http.Request) (*http.Response, error) { return f(req) }
 
 func TestTranslateGenAIWire(t *testing.T) {
-	for _, model := range []string{"gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-4-argon", "gemini-3.1-pro-preview"} {
+	for _, model := range metadata.GeminiModelIDs() {
 		t.Run(model, func(t *testing.T) {
 			calls := 0
 			restore := httpclient.SetDefaultClientForTesting(&http.Client{Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {

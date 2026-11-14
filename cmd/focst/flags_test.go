@@ -66,8 +66,8 @@ func TestTranslateModelDefault(t *testing.T) {
 			if flag == nil {
 				t.Fatal("model flag not found")
 			}
-			if flag.DefValue != "gemini-3.8-flash" {
-				t.Fatalf("model default = %q, want %q", flag.DefValue, "gemini-3.8-flash")
+			if flag.DefValue != "gemini-4-hydrogen" {
+				t.Fatalf("model default = %q, want %q", flag.DefValue, "gemini-4-hydrogen")
 			}
 		})
 	}

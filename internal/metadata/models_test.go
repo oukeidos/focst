@@ -7,6 +7,8 @@ import (
 
 func TestGeminiModelIDs(t *testing.T) {
 	want := []string{
+		"gemini-4-hydrogen",
+		"gemini-4-carbon",
 		"gemini-3.8-flash",
 		"gemini-3.5-flash-lite",
 		"gemini-3.1-pro-preview",
@@ -23,6 +25,8 @@ func TestGeminiPricing(t *testing.T) {
 		wantInput  float64
 		wantOutput float64
 	}{
+		{model: "gemini-4-hydrogen", wantInput: 1.50, wantOutput: 7.50},
+		{model: "gemini-4-carbon", wantInput: 2.00, wantOutput: 10.00},
 		{model: "gemini-3.8-flash", wantInput: 0.75, wantOutput: 3.75},
 		{model: "gemini-3.5-flash-lite", wantInput: 0.30, wantOutput: 2.50},
 		{model: "gemini-4-argon", wantInput: 2.00, wantOutput: 10.00},

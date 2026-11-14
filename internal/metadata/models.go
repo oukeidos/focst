@@ -15,8 +15,25 @@ type OpenAIModel struct {
 	OutputPerMillion float64
 }
 
-// Standard token prices verified 2026-10-16; see provider pricing pages.
+const DefaultGeminiModel = "gemini-4-hydrogen"
+
+// Standard token prices from https://aistudio.google.com/docs/pricing.
 var GeminiModels = []GeminiModel{
+	{
+		ID:                      DefaultGeminiModel,
+		Label:                   "Gemini 4 Hydrogen",
+		InputPerMillion:         1.50,
+		OutputPerMillion:        7.50,
+		ReasoningBilledAsOutput: true,
+	},
+	{
+		// Promotional prices through 2026-11-30; then input $4.00 / output $20.00.
+		ID:                      "gemini-4-carbon",
+		Label:                   "Gemini 4 Carbon",
+		InputPerMillion:         2.00,
+		OutputPerMillion:        10.00,
+		ReasoningBilledAsOutput: true,
+	},
 	{
 		// Promotional prices through 2026-12-31; then input $1.50 / output $7.50.
 		ID:                      "gemini-3.8-flash",

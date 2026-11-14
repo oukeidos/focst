@@ -11,6 +11,7 @@ import (
 	"github.com/oukeidos/focst/internal/cleanup"
 	"github.com/oukeidos/focst/internal/files"
 	"github.com/oukeidos/focst/internal/logger"
+	"github.com/oukeidos/focst/internal/metadata"
 	"github.com/oukeidos/focst/internal/pipeline"
 	"github.com/oukeidos/focst/internal/prompt"
 	"github.com/oukeidos/focst/internal/translator"
@@ -59,7 +60,7 @@ func newTranslateCmd() *cobra.Command {
 }
 
 func addTranslateFlags(cmd *cobra.Command, opts *translateOptions) {
-	cmd.Flags().StringVar(&opts.modelName, "model", "gemini-3.8-flash", "Gemini model name")
+	cmd.Flags().StringVar(&opts.modelName, "model", metadata.DefaultGeminiModel, "Gemini model name")
 	cmd.Flags().IntVar(&opts.chunkSize, "chunk-size", 100, "Number of segments per chunk")
 	cmd.Flags().IntVar(&opts.contextSize, "context-size", 5, "Number of context segments before/after")
 	cmd.Flags().IntVar(&opts.concurrency, "concurrency", 7, "Number of concurrent API requests (1-20)")

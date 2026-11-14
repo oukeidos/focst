@@ -36,7 +36,7 @@ const (
 	maxChunkSizeGUI     = 200
 	maxContextSizeGUI   = 20
 	maxExtractionTokens = 128000
-	defaultGUIModel     = "gemini-3.8-flash"
+	defaultGUIModel     = metadata.DefaultGeminiModel
 )
 
 func (a *focstApp) loadConfig() {
